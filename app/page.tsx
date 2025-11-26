@@ -34,54 +34,76 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="checkerboard flex min-h-screen items-center justify-center">
-      <main className="flex flex-col items-center justify-center gap-12 px-8 text-center">
-        <h1 className="text-8xl md:text-[14rem] font-bold font-[family-name:var(--font-allura)] text-green-700 tracking-wide drop-shadow-[0_0_20px_rgba(21,128,61,0.6)]">
-          Save The Date
-        </h1>
-        
-        <div className="flex gap-8 md:gap-16">
-          <div className="flex flex-col items-center">
-            <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
-              {timeLeft.days}
+    <div className="billboard-bg min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Efeito de textura */}
+      <div className="absolute inset-0 noise-texture opacity-20"></div>
+      
+      {/* Billboard frame */}
+      <div className="billboard-frame relative z-10 bg-[#1a1a1a] p-8 md:p-16 shadow-2xl max-w-6xl mx-4">
+        {/* Borda interna */}
+        <div className="border-4 border-[#e8dcc4] p-8 md:p-12">
+          <main className="flex flex-col items-center justify-center gap-8 text-center">
+            {/* Título principal com estilo editorial */}
+            <div className="space-y-2">
+              <h1 className="text-6xl md:text-8xl font-bold text-[#e8dcc4] tracking-[0.2em] uppercase leading-none">
+                SAVE THE
+              </h1>
+              <h2 className="text-6xl md:text-8xl font-bold text-[#e8dcc4] tracking-[0.2em] uppercase leading-none italic-serif">
+                DATE
+              </h2>
             </div>
-            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
-              Dias
+            
+            {/* Data destacada */}
+            <div className="date-badge bg-[#e8dcc4] text-[#1a1a1a] px-8 py-4 -rotate-2 shadow-lg">
+              <span className="text-5xl md:text-7xl font-bold tracking-wider">29.08.26</span>
             </div>
-          </div>
-          
-          <div className="flex flex-col items-center">
-            <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
-              {String(timeLeft.hours).padStart(2, '0')}
-            </div>
-            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
-              Horas
-            </div>
-          </div>
-          
-          <div className="flex flex-col items-center">
-            <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
-              {String(timeLeft.minutes).padStart(2, '0')}
-            </div>
-            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
-              Minutos
-            </div>
-          </div>
-          
-          <div className="flex flex-col items-center">
-            <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
-              {String(timeLeft.seconds).padStart(2, '0')}
-            </div>
-            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
-              Segundos
-            </div>
-          </div>
-        </div>
 
-        <p className="text-6xl md:text-8xl font-bold text-green-700 mt-12 tracking-wide font-[family-name:var(--font-allura)]">
-          29 de Agosto de 2026
-        </p>
-      </main>
+            {/* Contador */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-8 w-full">
+              <div className="counter-box">
+                <div className="text-5xl md:text-7xl font-bold text-[#e8dcc4] tabular-nums">
+                  {timeLeft.days}
+                </div>
+                <div className="text-lg md:text-xl text-[#e8dcc4] mt-2 uppercase tracking-widest opacity-80">
+                  Dias
+                </div>
+              </div>
+              
+              <div className="counter-box">
+                <div className="text-5xl md:text-7xl font-bold text-[#e8dcc4] tabular-nums">
+                  {String(timeLeft.hours).padStart(2, '0')}
+                </div>
+                <div className="text-lg md:text-xl text-[#e8dcc4] mt-2 uppercase tracking-widest opacity-80">
+                  Horas
+                </div>
+              </div>
+              
+              <div className="counter-box">
+                <div className="text-5xl md:text-7xl font-bold text-[#e8dcc4] tabular-nums">
+                  {String(timeLeft.minutes).padStart(2, '0')}
+                </div>
+                <div className="text-lg md:text-xl text-[#e8dcc4] mt-2 uppercase tracking-widest opacity-80">
+                  Minutos
+                </div>
+              </div>
+              
+              <div className="counter-box">
+                <div className="text-5xl md:text-7xl font-bold text-[#e8dcc4] tabular-nums">
+                  {String(timeLeft.seconds).padStart(2, '0')}
+                </div>
+                <div className="text-lg md:text-xl text-[#e8dcc4] mt-2 uppercase tracking-widest opacity-80">
+                  Segundos
+                </div>
+              </div>
+            </div>
+
+            {/* Assinatura */}
+            <div className="mt-8 text-2xl md:text-3xl text-[#e8dcc4] tracking-[0.3em] uppercase opacity-70">
+              Giuvazzi Day
+            </div>
+          </main>
+        </div>
+      </div>
     </div>
   );
 }
