@@ -48,7 +48,7 @@ export default function Home() {
               <h1 className="text-6xl md:text-8xl font-bold text-[#e8dcc4] tracking-[0.2em] uppercase leading-none">
                 SAVE THE
               </h1>
-              <h2 className="text-6xl md:text-8xl font-bold text-[#e8dcc4] tracking-[0.2em] uppercase leading-none italic-serif">
+              <h2 className="text-6xl md:text-8xl font-bold text-[#e8dcc4] tracking-[0.2em] uppercase leading-none">
                 DATE
               </h2>
             </div>
