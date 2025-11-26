@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div className="checkerboard flex min-h-screen items-center justify-center">
       <main className="flex flex-col items-center justify-center gap-12 px-8 text-center">
-        <h1 className="text-8xl md:text-[12rem] font-[family-name:var(--font-allura)] text-green-700 tracking-wide drop-shadow-[0_0_20px_rgba(21,128,61,0.6)]">
+        <h1 className="text-8xl md:text-[14rem] font-bold font-[family-name:var(--font-allura)] text-green-700 tracking-wide drop-shadow-[0_0_20px_rgba(21,128,61,0.6)]">
           Save The Date
         </h1>
         
@@ -45,7 +45,7 @@ export default function Home() {
             <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
               {timeLeft.days}
             </div>
-            <div className="text-3xl md:text-5xl text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
+            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
               Dias
             </div>
           </div>
@@ -54,7 +54,7 @@ export default function Home() {
             <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
               {String(timeLeft.hours).padStart(2, '0')}
             </div>
-            <div className="text-3xl md:text-5xl text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
+            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
               Horas
             </div>
           </div>
@@ -63,7 +63,7 @@ export default function Home() {
             <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
               {String(timeLeft.minutes).padStart(2, '0')}
             </div>
-            <div className="text-3xl md:text-5xl text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
+            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
               Minutos
             </div>
           </div>
@@ -72,13 +72,13 @@ export default function Home() {
             <div className="text-7xl md:text-9xl font-bold text-green-700 tabular-nums drop-shadow-[0_0_10px_rgba(21,128,61,0.4)] font-[family-name:var(--font-orbitron)]">
               {String(timeLeft.seconds).padStart(2, '0')}
             </div>
-            <div className="text-3xl md:text-5xl text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
+            <div className="text-4xl md:text-6xl font-bold text-green-700 mt-4 uppercase tracking-wider font-[family-name:var(--font-allura)]">
               Segundos
             </div>
           </div>
         </div>
 
-        <p className="text-4xl md:text-6xl text-green-700 mt-12 tracking-wide font-[family-name:var(--font-allura)]">
+        <p className="text-6xl md:text-8xl font-bold text-green-700 mt-12 tracking-wide font-[family-name:var(--font-allura)]">
           29 de Agosto de 2026
         </p>
       </main>
