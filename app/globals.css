@@ -1,80 +1,896 @@
 @import "tailwindcss";
 
 :root {
-  --background: #5a7a8c;
-  --foreground: #e8dcc4;
+  --beige: #f5f1eb;
+  --brown: #8b6f47;
+  --dark-brown: #5d4e37;
+  --cream: #faf8f5;
+  --sage: #9db4a6;
+  --charcoal: #2c2c2c;
+  --sky-blue: #a8c5d8;
+  --cloud-white: #f8f8f8;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  background: #2c2c2c;
 }
 
-/* Fundo estilo céu/billboard */
-.billboard-bg {
-  background: linear-gradient(180deg, #5a7a8c 0%, #7a9aac 50%, #8aaabc 100%);
+/* Fundo principal com transição céu/xadrez */
+.main-background {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+/* Camada do céu (75% superior) */
+.sky-layer {
+  position: absolute;
+  top: 25%;
+  left: 0;
+  width: 100%;
+  height: 75%;
+  background: linear-gradient(
+    180deg,
+    var(--sky-blue) 0%,
+    #b8d0e8 40%,
+    #c8dae8 80%,
+    #d8e4f0 100%
+  );
+  z-index: 1;
+}
+
+/* Camada do xadrez com gradiente de opacidade */
+.checker-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      var(--charcoal) 0deg 90deg,
+      #7a7a7a 90deg 180deg,
+      var(--charcoal) 180deg 270deg,
+      #7a7a7a 270deg 360deg
+    );
+  background-size: 30px 30px;
+  z-index: 2;
+}
+
+/* Máscara de gradiente para fazer o xadrez desaparecer de baixo para cima */
+.checker-layer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    0deg,
+    transparent 0%,
+    transparent 15%,
+    rgba(168, 197, 216, 0.2) 18%,
+    rgba(168, 197, 216, 0.5) 21%,
+    rgba(168, 197, 216, 1) 25%,
+    rgba(168, 197, 216, 1) 100%
+  );
+  z-index: 1;
+}
+
+/* Remover gradiente de transição separado */
+
+/* Container principal centralizado */
+.main-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sol no canto superior direito */
+.sun {
+  position: absolute;
+  top: 8%;
+  right: 10%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffd966 0%, #ffeb99 40%, rgba(255, 235, 153, 0.6) 70%, transparent 100%);
+  border-radius: 50%;
+  z-index: 4;
+  animation: sun-glow 4s ease-in-out infinite;
+}
+
+.sun::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: #ffeb3b;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+@keyframes sun-glow {
+  0%, 100% {
+    box-shadow: 0 0 40px rgba(255, 217, 102, 0.6),
+                0 0 80px rgba(255, 217, 102, 0.4),
+                0 0 120px rgba(255, 217, 102, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(255, 217, 102, 0.7),
+                0 0 100px rgba(255, 217, 102, 0.5),
+                0 0 150px rgba(255, 217, 102, 0.3);
+  }
+}
+
+/* Nuvens individuais */
+.cloud {
+  position: absolute;
+  z-index: 3;
+  width: 280px;
+  height: 110px;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+/* Nuvem 1 */
+.cloud-1 {
+  top: 15%;
+  background: 
+    radial-gradient(ellipse 110px 50px at 25% 50%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.75) 35%, transparent 65%),
+    radial-gradient(ellipse 130px 55px at 50% 55%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 45%, transparent 70%),
+    radial-gradient(ellipse 120px 52px at 75% 52%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.65) 40%, transparent 68%),
+    radial-gradient(ellipse 90px 40px at 65% 48%, rgba(255, 255, 255, 0.85) 0%, transparent 60%);
+  animation: float-cloud 35s linear infinite;
+  animation-delay: 0s;
+}
+
+/* Nuvem 2 */
+.cloud-2 {
+  top: 8%;
+  background: 
+    radial-gradient(ellipse 110px 50px at 35% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.65) 45%, transparent 70%),
+    radial-gradient(ellipse 130px 55px at 55% 53%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 50%, transparent 75%),
+    radial-gradient(ellipse 105px 48px at 75% 51%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.6) 48%, transparent 72%);
+  animation: float-cloud 28s linear infinite;
+  animation-delay: -7s;
+}
+
+/* Nuvem 3 */
+.cloud-3 {
+  top: 22%;
+  background: 
+    radial-gradient(ellipse 95px 42px at 32% 50%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.68) 42%, transparent 68%),
+    radial-gradient(ellipse 115px 48px at 52% 54%, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.52) 48%, transparent 73%),
+    radial-gradient(ellipse 100px 45px at 72% 52%, rgba(255, 255, 255, 0.87) 0%, rgba(255, 255, 255, 0.58) 46%, transparent 70%);
+  animation: float-cloud 30s linear infinite;
+  animation-delay: -14s;
+}
+
+/* Nuvem 4 */
+.cloud-4 {
+  top: 35%;
+  background: 
+    radial-gradient(ellipse 90px 40px at 30% 50%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.6) 45%, transparent 68%),
+    radial-gradient(ellipse 105px 45px at 50% 53%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 50%, transparent 72%),
+    radial-gradient(ellipse 85px 38px at 70% 51%, rgba(255, 255, 255, 0.85) 0%, transparent 65%);
+  animation: float-cloud 26s linear infinite;
+  animation-delay: -5s;
+}
+
+/* Nuvem 5 */
+.cloud-5 {
+  top: 28%;
+  background: 
+    radial-gradient(ellipse 100px 45px at 33% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.62) 44%, transparent 70%),
+    radial-gradient(ellipse 115px 50px at 53% 54%, rgba(255, 255, 255, 0.83) 0%, rgba(255, 255, 255, 0.53) 48%, transparent 74%);
+  animation: float-cloud 24s linear infinite;
+  animation-delay: -12s;
+}
+
+/* Nuvem 6 */
+.cloud-6 {
+  top: 50%;
+  background: 
+    radial-gradient(ellipse 80px 35px at 30% 50%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.55) 45%, transparent 68%),
+    radial-gradient(ellipse 95px 40px at 50% 53%, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.48) 50%, transparent 72%);
+  animation: float-cloud 27s linear infinite;
+  animation-delay: -18s;
+}
+
+/* Nuvem 7 */
+.cloud-7 {
+  top: 42%;
+  background: 
+    radial-gradient(ellipse 85px 38px at 32% 50%, rgba(255, 255, 255, 0.87) 0%, rgba(255, 255, 255, 0.58) 46%, transparent 69%),
+    radial-gradient(ellipse 100px 43px at 52% 53%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 50%, transparent 73%);
+  animation: float-cloud 29s linear infinite;
+  animation-delay: -9s;
+}
+
+/* Nuvem 8 */
+.cloud-8 {
+  top: 58%;
+  background: 
+    radial-gradient(ellipse 90px 40px at 31% 50%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.57) 45%, transparent 70%),
+    radial-gradient(ellipse 105px 45px at 51% 54%, rgba(255, 255, 255, 0.79) 0%, rgba(255, 255, 255, 0.49) 50%, transparent 74%);
+  animation: float-cloud 25s linear infinite;
+  animation-delay: -3s;
+}
+
+/* Nuvem 9 */
+.cloud-9 {
+  top: 12%;
+  background: 
+    radial-gradient(ellipse 95px 42px at 30% 50%, rgba(255, 255, 255, 0.89) 0%, rgba(255, 255, 255, 0.61) 44%, transparent 69%),
+    radial-gradient(ellipse 110px 47px at 50% 53%, rgba(255, 255, 255, 0.81) 0%, rgba(255, 255, 255, 0.51) 49%, transparent 73%);
+  animation: float-cloud 31s linear infinite;
+  animation-delay: -20s;
+}
+
+/* Nuvem 10 */
+.cloud-10 {
+  top: 45%;
+  background: 
+    radial-gradient(ellipse 88px 39px at 32% 50%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.59) 45%, transparent 68%),
+    radial-gradient(ellipse 103px 44px at 52% 53%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 50%, transparent 72%);
+  animation: float-cloud 36s linear infinite;
+  animation-delay: -22s;
+}
+
+/* Nuvem 11 */
+.cloud-11 {
+  top: 18%;
+  background: 
+    radial-gradient(ellipse 105px 48px at 28% 50%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.68) 38%, transparent 66%),
+    radial-gradient(ellipse 125px 53px at 52% 54%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.58) 43%, transparent 69%),
+    radial-gradient(ellipse 115px 50px at 72% 51%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.62) 41%, transparent 67%);
+  animation: float-cloud 38s linear infinite;
+  animation-delay: -10s;
+}
+
+/* Nuvem 12 */
+.cloud-12 {
+  top: 32%;
+  background: 
+    radial-gradient(ellipse 98px 44px at 30% 50%, rgba(255, 255, 255, 0.89) 0%, rgba(255, 255, 255, 0.64) 40%, transparent 67%),
+    radial-gradient(ellipse 118px 51px at 50% 53%, rgba(255, 255, 255, 0.83) 0%, rgba(255, 255, 255, 0.55) 46%, transparent 71%),
+    radial-gradient(ellipse 108px 47px at 70% 52%, rgba(255, 255, 255, 0.87) 0%, rgba(255, 255, 255, 0.59) 42%, transparent 68%);
+  animation: float-cloud 40s linear infinite;
+  animation-delay: -25s;
+}
+
+/* Nuvem 13 */
+.cloud-13 {
+  top: 55%;
+  background: 
+    radial-gradient(ellipse 92px 41px at 27% 50%, rgba(255, 255, 255, 0.91) 0%, rgba(255, 255, 255, 0.66) 39%, transparent 66%),
+    radial-gradient(ellipse 112px 48px at 50% 54%, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.56) 44%, transparent 70%),
+    radial-gradient(ellipse 102px 45px at 73% 51%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.6) 41%, transparent 67%);
+  animation: float-cloud 37s linear infinite;
+  animation-delay: -30s;
+}
+
+/* Nuvem 14 */
+.cloud-14 {
+  top: 10%;
+  background: 
+    radial-gradient(ellipse 100px 46px at 29% 50%, rgba(255, 255, 255, 0.93) 0%, rgba(255, 255, 255, 0.69) 37%, transparent 65%),
+    radial-gradient(ellipse 120px 52px at 51% 53%, rgba(255, 255, 255, 0.87) 0%, rgba(255, 255, 255, 0.59) 42%, transparent 69%),
+    radial-gradient(ellipse 110px 49px at 71% 52%, rgba(255, 255, 255, 0.91) 0%, rgba(255, 255, 255, 0.63) 40%, transparent 67%);
+  animation: float-cloud 42s linear infinite;
+  animation-delay: -15s;
+}
+
+/* Nuvem 15 */
+.cloud-15 {
+  top: 38%;
+  background: 
+    radial-gradient(ellipse 95px 43px at 26% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.65) 39%, transparent 66%),
+    radial-gradient(ellipse 115px 50px at 50% 54%, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.57) 44%, transparent 70%),
+    radial-gradient(ellipse 105px 46px at 74% 51%, rgba(255, 255, 255, 0.89) 0%, rgba(255, 255, 255, 0.61) 41%, transparent 68%);
+  animation: float-cloud 39s linear infinite;
+  animation-delay: -8s;
+}
+
+/* Nuvem 16 */
+.cloud-16 {
+  top: 25%;
+  background: 
+    radial-gradient(ellipse 102px 47px at 28% 50%, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.7) 38%, transparent 65%),
+    radial-gradient(ellipse 122px 53px at 52% 53%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.6) 43%, transparent 69%),
+    radial-gradient(ellipse 112px 50px at 72% 52%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.64) 40%, transparent 67%);
+  animation: float-cloud 41s linear infinite;
+  animation-delay: -33s;
+}
+
+/* Nuvem 17 */
+.cloud-17 {
+  top: 48%;
+  background: 
+    radial-gradient(ellipse 97px 44px at 27% 50%, rgba(255, 255, 255, 0.91) 0%, rgba(255, 255, 255, 0.67) 39%, transparent 66%),
+    radial-gradient(ellipse 117px 51px at 51% 54%, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.58) 44%, transparent 70%),
+    radial-gradient(ellipse 107px 48px at 73% 51%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.62) 41%, transparent 68%);
+  animation: float-cloud 36s linear infinite;
+  animation-delay: -19s;
+}
+
+/* Nuvem 18 */
+.cloud-18 {
+  top: 6%;
+  background: 
+    radial-gradient(ellipse 108px 49px at 29% 50%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.72) 37%, transparent 64%),
+    radial-gradient(ellipse 128px 55px at 52% 54%, rgba(255, 255, 255, 0.89) 0%, rgba(255, 255, 255, 0.61) 42%, transparent 68%),
+    radial-gradient(ellipse 118px 52px at 73% 52%, rgba(255, 255, 255, 0.93) 0%, rgba(255, 255, 255, 0.66) 40%, transparent 67%);
+  animation: float-cloud 44s linear infinite;
+  animation-delay: -27s;
+}
+
+/* Nuvem 19 */
+.cloud-19 {
+  top: 62%;
+  background: 
+    radial-gradient(ellipse 94px 42px at 26% 50%, rgba(255, 255, 255, 0.89) 0%, rgba(255, 255, 255, 0.64) 39%, transparent 66%),
+    radial-gradient(ellipse 114px 49px at 50% 53%, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.56) 44%, transparent 70%),
+    radial-gradient(ellipse 104px 46px at 74% 52%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.6) 41%, transparent 68%);
+  animation: float-cloud 38s linear infinite;
+  animation-delay: -5s;
+}
+
+/* Nuvem 20 */
+.cloud-20 {
+  top: 20%;
+  background: 
+    radial-gradient(ellipse 100px 46px at 28% 50%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.68) 38%, transparent 65%),
+    radial-gradient(ellipse 120px 52px at 51% 54%, rgba(255, 255, 255, 0.87) 0%, rgba(255, 255, 255, 0.59) 43%, transparent 69%),
+    radial-gradient(ellipse 110px 49px at 72% 51%, rgba(255, 255, 255, 0.91) 0%, rgba(255, 255, 255, 0.63) 40%, transparent 67%);
+  animation: float-cloud 43s linear infinite;
+  animation-delay: -35s;
+}
+
+@keyframes float-cloud {
+  0% {
+    left: 110%;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    left: -25%;
+    opacity: 0;
+  }
+}
+
+/* Andorinhas voando em bandos */
+.swallow {
+  position: absolute;
+  z-index: 5;
+}
+
+/* Bando 1 - Formação em V (8 andorinhas) */
+.flock-1 {
+  animation: fly-flock-1 18s linear infinite;
+}
+
+.swallow-1-1 { top: 15%; left: -120px; animation-delay: 0s; } /* Líder */
+.swallow-1-2 { top: 18%; left: -140px; animation-delay: 0.2s; } /* Direita 1 */
+.swallow-1-3 { top: 12%; left: -140px; animation-delay: 0.2s; } /* Esquerda 1 */
+.swallow-1-4 { top: 21%; left: -160px; animation-delay: 0.4s; } /* Direita 2 */
+.swallow-1-5 { top: 9%; left: -160px; animation-delay: 0.4s; } /* Esquerda 2 */
+.swallow-1-6 { top: 24%; left: -180px; animation-delay: 0.6s; } /* Direita 3 */
+.swallow-1-7 { top: 6%; left: -180px; animation-delay: 0.6s; } /* Esquerda 3 */
+.swallow-1-8 { top: 3%; left: -200px; animation-delay: 0.8s; } /* Esquerda 4 */
+
+/* Bando 2 - Formação em V (9 andorinhas) */
+.flock-2 {
+  animation: fly-flock-2 20s linear infinite;
+}
+
+.swallow-2-1 { top: 35%; left: -140px; animation-delay: 6s; } /* Líder */
+.swallow-2-2 { top: 38%; left: -160px; animation-delay: 6.2s; } /* Direita 1 */
+.swallow-2-3 { top: 32%; left: -160px; animation-delay: 6.2s; } /* Esquerda 1 */
+.swallow-2-4 { top: 41%; left: -180px; animation-delay: 6.4s; } /* Direita 2 */
+.swallow-2-5 { top: 29%; left: -180px; animation-delay: 6.4s; } /* Esquerda 2 */
+.swallow-2-6 { top: 44%; left: -200px; animation-delay: 6.6s; } /* Direita 3 */
+.swallow-2-7 { top: 26%; left: -200px; animation-delay: 6.6s; } /* Esquerda 3 */
+.swallow-2-8 { top: 47%; left: -220px; animation-delay: 6.8s; } /* Direita 4 */
+.swallow-2-9 { top: 23%; left: -220px; animation-delay: 6.8s; } /* Esquerda 4 */
+
+/* Bando 3 - Formação em V (6 andorinhas) */
+.flock-3 {
+  animation: fly-flock-3 16s linear infinite;
+}
+
+.swallow-3-1 { top: 45%; left: -160px; animation-delay: 12s; } /* Líder */
+.swallow-3-2 { top: 48%; left: -180px; animation-delay: 12.2s; } /* Direita 1 */
+.swallow-3-3 { top: 42%; left: -180px; animation-delay: 12.2s; } /* Esquerda 1 */
+.swallow-3-4 { top: 51%; left: -200px; animation-delay: 12.4s; } /* Direita 2 */
+.swallow-3-5 { top: 39%; left: -200px; animation-delay: 12.4s; } /* Esquerda 2 */
+.swallow-3-6 { top: 36%; left: -220px; animation-delay: 12.6s; } /* Esquerda 3 */
+
+/* Bando 4 - Formação em V (5 andorinhas) */
+.flock-4 {
+  animation: fly-flock-4 22s linear infinite;
+}
+
+.swallow-4-1 { top: 8%; left: -110px; animation-delay: 18s; } /* Líder */
+.swallow-4-2 { top: 11%; left: -130px; animation-delay: 18.2s; } /* Direita 1 */
+.swallow-4-3 { top: 5%; left: -130px; animation-delay: 18.2s; } /* Esquerda 1 */
+.swallow-4-4 { top: 14%; left: -150px; animation-delay: 18.4s; } /* Direita 2 */
+.swallow-4-5 { top: 2%; left: -150px; animation-delay: 18.4s; } /* Esquerda 2 */
+
+
+
+/* Animações dos bandos */
+@keyframes fly-flock-1 {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.9;
+  }
+  92% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(calc(100vw + 150px)) translateY(-20px) rotate(5deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fly-flock-2 {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.8;
+  }
+  94% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(calc(100vw + 120px)) translateY(-15px) rotate(3deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fly-flock-3 {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(calc(100vw + 100px)) translateY(-25px) rotate(7deg);
+    opacity: 0;
+  }
+}
+
+@keyframes fly-flock-4 {
+  0% {
+    transform: translateX(0px) translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.6;
+  }
+  95% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(calc(100vw + 130px)) translateY(-10px) rotate(4deg);
+    opacity: 0;
+  }
+}
+
+
+
+
+
+/* Quadrado preto centralizado */
+.content-overlay {
+  width: 900px;
+  height: 360px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 2rem;
+  align-items: center;
+  text-align: center;
+  padding: 3rem;
+  border: 3px solid var(--beige);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(15px);
+  position: relative;
+  z-index: 15;
+}
+
+/* Save the Date título */
+.save-title {
+  font-family: var(--font-inter);
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--beige);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  margin-bottom: 0;
+  opacity: 0.9;
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+/* Área principal de informações */
+.main-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  grid-row: 2;
+}
+
+/* Nomes dos noivos */
+.couple-names {
+  font-family: var(--font-dancing);
+  font-size: 2.8rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0;
+  line-height: 1.1;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Data */
+.wedding-date {
+  font-family: var(--font-playfair);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--beige);
+  margin-bottom: 0;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
   position: relative;
 }
 
-/* Textura de ruído */
-.noise-texture {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  pointer-events: none;
+.wedding-date::before,
+.wedding-date::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--beige);
+  font-size: 1rem;
+  opacity: 0.7;
 }
 
-/* Frame do billboard */
-.billboard-frame {
-  border: 8px solid #2a2a2a;
-  border-radius: 4px;
-  box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.5),
-    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+.wedding-date::before {
+  left: -2rem;
 }
 
-/* Estilo itálico serifado para o título */
-.italic-serif {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
+.wedding-date::after {
+  right: -2rem;
+}
+
+/* Local */
+.location {
+  font-family: var(--font-inter);
+  font-size: 1.1rem;
+  color: var(--beige);
+  margin-bottom: 0;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Save the Date seção */
+.save-date-section {
+  background: rgba(245, 241, 235, 0.1);
+  border: 2px solid rgba(245, 241, 235, 0.3);
+  padding: 1.5rem;
+  margin: 0;
+  backdrop-filter: blur(10px);
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  grid-row: 2;
+}
+
+.save-date-section::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(45deg, rgba(245, 241, 235, 0.2) 0%, transparent 100%);
+  z-index: -1;
+}
+
+.save-date-text {
+  font-family: var(--font-inter);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--beige);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.save-date {
+  background: var(--beige);
+  color: var(--charcoal);
+  padding: 0.8rem 2rem;
+  font-family: var(--font-inter);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
   letter-spacing: 0.15em;
-}
-
-/* Badge da data */
-.date-badge {
-  transform: rotate(-2deg);
-  transition: transform 0.3s ease;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.date-badge:hover {
-  transform: rotate(0deg) scale(1.05);
-}
-
-/* Caixas do contador */
-.counter-box {
-  background: rgba(232, 220, 196, 0.05);
-  border: 2px solid rgba(232, 220, 196, 0.2);
-  padding: 1.5rem 1rem;
-  border-radius: 4px;
+  border: none;
+  cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  width: 100%;
 }
 
-.counter-box:hover {
-  background: rgba(232, 220, 196, 0.1);
-  border-color: rgba(232, 220, 196, 0.4);
-  transform: translateY(-4px);
+.save-date:hover {
+  background: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* Animação sutil para os números */
-@keyframes pulse-subtle {
+/* Contador */
+.countdown-section {
+  margin: 0;
+  padding: 0;
+  border: none;
+  width: 100%;
+  grid-row: 2;
+}
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.countdown-item {
+  text-align: center;
+  padding: 0.8rem;
+  background: rgba(245, 241, 235, 0.1);
+  border: 1px solid rgba(245, 241, 235, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.countdown-number {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--beige);
+  display: block;
+  margin-bottom: 0.2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.countdown-label {
+  font-family: var(--font-inter);
+  font-size: 0.8rem;
+  color: var(--beige);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* Andorinhas pequenas decorativas */
+.small-swallows {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+}
+
+.small-swallow {
+  position: absolute;
+  animation: flutter 3s ease-in-out infinite;
+}
+
+.small-swallow:nth-child(1) {
+  left: -30px;
+  top: 0px;
+  animation-delay: 0s;
+}
+
+.small-swallow:nth-child(2) {
+  left: -10px;
+  top: -15px;
+  animation-delay: 0.5s;
+}
+
+.small-swallow:nth-child(3) {
+  left: 10px;
+  top: -5px;
+  animation-delay: 1s;
+}
+
+.small-swallow:nth-child(4) {
+  left: 30px;
+  top: -20px;
+  animation-delay: 1.5s;
+}
+
+@keyframes flutter {
   0%, 100% {
-    opacity: 1;
+    transform: translateY(0px) rotate(0deg);
   }
   50% {
-    opacity: 0.9;
+    transform: translateY(-5px) rotate(2deg);
   }
 }
 
-.counter-box > div:first-child {
-  animation: pulse-subtle 2s ease-in-out infinite;
+/* Responsividade */
+@media (max-width: 1600px) {
+  .content-overlay {
+    width: 800px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .content-overlay {
+    width: 700px;
+    height: 280px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  
+  .countdown-section {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  
+  .countdown-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-background {
+    padding: 1rem;
+    background-size: 60px 60px;
+  }
+  
+  .window-frame {
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+  }
+  
+  .window-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .content-overlay {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    grid-template-columns: none;
+    grid-template-rows: none;
+  }
+  
+  .main-info {
+    gap: 0.5rem;
+    grid-row: auto;
+  }
+  
+  .save-date-section {
+    grid-row: auto;
+  }
+  
+  .countdown-section {
+    grid-row: auto;
+    grid-column: auto;
+  }
+  
+  .couple-names {
+    font-size: 2.5rem;
+  }
+  
+  .wedding-date {
+    font-size: 2rem;
+  }
+  
+  .wedding-date::before,
+  .wedding-date::after {
+    font-size: 1rem;
+    left: -1.5rem;
+    right: -1.5rem;
+  }
+  
+  .countdown-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .countdown-number {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .window-frame {
+    height: 300px;
+  }
+  
+  .content-overlay {
+    max-width: 350px;
+    padding: 1.5rem;
+  }
+  
+  .save-title {
+    font-size: 1rem;
+  }
+  
+  .couple-names {
+    font-size: 2.2rem;
+  }
+  
+  .wedding-date {
+    font-size: 2rem;
+  }
+  
+  .wedding-date::before,
+  .wedding-date::after {
+    display: none;
+  }
+  
+  .location {
+    font-size: 1.1rem;
+  }
+  
+  .countdown-number {
+    font-size: 2rem;
+  }
+  
+  .save-date-section {
+    padding: 1.5rem;
+  }
 }
